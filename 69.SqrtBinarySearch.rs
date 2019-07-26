@@ -7,9 +7,7 @@ impl Solution {
         let mut low = 0;
         while low != high {
             let mid = low + (high - low) / 2;
-            // Consider following corner case:
-            // 1. Input x = 1, low = 0, high = 1, the result is 1.
-            // 2. Input x = 2147483647, low = 46339, high = 46340, the result is 46340.
+            // 当 low 等于 high - 1 时，mid 始终等于 low。此时可得到最终结果。
             if low == mid {
                 return if high <= x / high { high } else { low };
             }

@@ -34,7 +34,7 @@ impl Solution {
                     Self::min_depth_recursive(root.borrow().right.as_ref(), depth + 1);
                 if root.borrow().left.is_none() {
                     right_min_depth
-                } else if .borrow().right.is_none() {
+                } else if root.borrow().right.is_none() {
                     left_min_depth
                 } else {
                     left_min_depth.min(right_min_depth)

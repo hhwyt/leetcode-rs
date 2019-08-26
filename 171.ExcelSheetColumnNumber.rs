@@ -4,18 +4,6 @@
 mod tests {
     use super::*;
 
-    /*
-    Input: "A"
-    Output: 1
-    Example 2:
-
-    Input: "AB"
-    Output: 28
-    Example 3:
-
-    Input: "ZY"
-    Output: 701
-    */
     #[test]
     fn test() {
         let input1 = String::from("A");

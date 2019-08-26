@@ -22,9 +22,8 @@ struct Solution;
 
 impl Solution {
     fn swap_slice(nums: &mut Vec<i32>, left_begin: usize, right_begin: usize, len: usize) {
-        for i in 0..len {
-            nums.swap(left_begin + i, right_begin + i);
-        }
+        let (left, right) = nums[left_begin..].split_at_mut(right_begin - left_begin);
+        left[..len].swap_with_slice(&mut right[..len]);
     }
 
     fn rotate_recursive(nums: &mut Vec<i32>, k: i32, s: usize, e: usize) {

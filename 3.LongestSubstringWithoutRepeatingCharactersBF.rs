@@ -41,11 +41,6 @@ mod tests {
 
     #[test]
     fn test_up_and_left_both_zero() {
-        //   b a b b
-        // b 1 0 0 0
-        // a 0 1 2 3
-        // b 0 0 2 0
-        // b 0 0 0 2
         let input = "babb".to_owned();
         let expected = 2;
         assert_eq!(Solution::length_of_longest_substring(input), expected);
@@ -53,9 +48,6 @@ mod tests {
 
     #[test]
     fn test_longest_in_line_0() {
-        //   a u
-        // a 1 2
-        // u   2
         let input = "au".to_owned();
         let expected = 2;
         assert_eq!(Solution::length_of_longest_substring(input), expected);
@@ -72,38 +64,23 @@ mod tests {
 struct Solution;
 
 impl Solution {
+    // O(n^3)
     pub fn length_of_longest_substring(s: String) -> i32 {
-        if s.is_empty() {
-            return 0;
-        }
-
         let s: Vec<char> = s.chars().collect();
-        let mut dp: Vec<Vec<i32>> = vec![vec![0; s.len()]; s.len()];
-        dp[0][0] = 1;
-
-        for i in 1..s.len() {
-            if s[i] != s[0] {
-                dp[0][i] = dp[0][i - 1] + 1;
-            } else {
-                break;
-            }
-        }
-
-        for i in 1..s.len() {
-            let mut cur_row_max = 1;
-            for j in i..s.len() {
-                if i == j {
-                    dp[i][j] = cur_row_max.max(dp[i - 1][j]).max(dp[i - 1][j - 1]);
-                } else if s[i] != s[j] {
-                    cur_row_max += 1;
-                    dp[i][j] = cur_row_max.max(dp[i - 1][j]).max(dp[i][j - 1]);
-                } else {
-                    break;
+        let mut max_length = 0;
+        for i in 0..s.len() {
+            let mut cur_length = 1;
+            'outer: for j in i + 1..s.len() {
+                for k in (i..j).rev() {
+                    if s[k] == s[j] {
+                        break 'outer;
+                    }
                 }
+                cur_length += 1;
             }
+            max_length = max_length.max(cur_length);
         }
-
-        dp[s.len() - 1][s.len() - 1]
+        max_length
     }
 }
 

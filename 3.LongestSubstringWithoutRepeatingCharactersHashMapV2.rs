@@ -69,8 +69,7 @@ impl Solution {
     pub fn length_of_longest_substring(s: String) -> i32 {
         let s: Vec<char> = s.chars().collect();
         let mut hm = HashMap::new();
-        let mut max_length = 0;
-        let mut left = 0;
+        let (mut left, mut max_length) = (0, 0);
         for right in 0..s.len() {
             if hm.contains_key(&s[right]) {
                 left = left.max(hm[&s[right]] + 1);

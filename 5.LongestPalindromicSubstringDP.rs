@@ -76,25 +76,25 @@ impl Solution {
             return "".to_owned();
         }
 
-        let r: Vec<char> = s.chars().rev().collect();
         let s: Vec<char> = s.chars().collect();
         let mut dp: Vec<Vec<i32>> = vec![vec![0; s.len()]; s.len()];
 
         for i in 0..s.len() {
-            if s[i] == r[0] {
-                dp[0][i] = 1;
+            if s[i] == s[s.len() - 1] {
+                dp[s.len() - 1][i] = 1;
             }
-            if s[0] == r[i] {
+            if s[i] == s[0] {
                 dp[i][0] = 1;
             }
         }
 
-        let (mut pos, mut max_len) = (0, 1);
-        for i in 1..s.len() {
-            for j in 1..r.len() {
-                if r[i] == s[j] {
-                    dp[i][j] = dp[i - 1][j - 1] + 1;
-                    if dp[i][j] as usize > max_len && (j == s.len() - 1 - (i - dp[i - 1][j - 1] as usize)) {
+        let mut pos = 0;
+        let mut max_len = 1;
+        for i in (0..s.len() - 1).rev() {
+            for j in 1..s.len() {
+                if s[i] == s[j] {
+                    dp[i][j] = dp[i + 1][j - 1] + 1;
+                    if dp[i][j] as usize > max_len && (j - (dp[i][j] as usize - 1)) == i {
                         pos = j;
                         max_len = dp[i][j] as usize;
                     }

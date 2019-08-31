@@ -88,9 +88,11 @@ impl Solution {
         if s.is_empty() {
             return "".to_owned();
         }
+
         let s: Vec<char> = s.chars().collect();
         let mut pos = 0;
         let mut max_len = 1;
+
         for i in 0..s.len() {
             for j in i + 1..s.len() {
                 if Self::is_palindrome(&s[i..=j]) {
@@ -101,6 +103,7 @@ impl Solution {
                 }
             }
         }
+
         s[pos - (max_len - 1)..=pos].iter().collect()
     }
 }

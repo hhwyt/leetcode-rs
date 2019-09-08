@@ -20,18 +20,18 @@ impl ListNode {
 struct Solution;
 
 impl Solution {
-    fn reverse_list_recursive(head: Option<&Box<ListNode>>, last_head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        match head {
-            Some(head) => {
-                let mut new_head = Box::new(ListNode::new(head.val));
-                new_head.next = last_head;
-                Self::reverse_list_recursive(head.next.as_ref(), Some(new_head))
+    fn reverse_list_recursive(old_list_head: Option<Box<ListNode>>, new_list_head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+        match old_list_head {
+            Some(mut boxed_old_list_head) => {
+                let next = boxed_old_list_head.next.take();
+                boxed_old_list_head.next = new_list_head;
+                Self::reverse_list_recursive(next, Some(boxed_old_list_head))
             }
-            None => last_head
+            None => new_list_head
         }
     }
     pub fn reverse_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        return Self::reverse_list_recursive(head.as_ref(), None);
+        return Self::reverse_list_recursive(head, None);
     }
 }
 

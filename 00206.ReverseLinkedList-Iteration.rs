@@ -21,13 +21,13 @@ struct Solution;
 
 impl Solution {
     pub fn reverse_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        let mut cur = head;
+        let mut old_head = head;
         let mut new_head: Option<Box<ListNode>> = None;
-        while let Some(mut boxed_cur) = cur.take() {
-            let next = boxed_cur.next.take();
-            boxed_cur.next = new_head;
-            new_head = Some(boxed_cur);
-            cur = next;
+        while let Some(mut boxed_old_head) = old_head.take() {
+            let next = boxed_old_head.next.take();
+            boxed_old_head.next = new_head;
+            new_head = Some(boxed_old_head);
+            old_head = next;
         }
         new_head
     }

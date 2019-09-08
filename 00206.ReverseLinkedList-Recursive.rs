@@ -20,14 +20,14 @@ impl ListNode {
 struct Solution;
 
 impl Solution {
-    fn reverse_list_recursive(old_list_head: Option<Box<ListNode>>, new_list_head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
-        match old_list_head {
-            Some(mut boxed_old_list_head) => {
-                let next = boxed_old_list_head.next.take();
-                boxed_old_list_head.next = new_list_head;
-                Self::reverse_list_recursive(next, Some(boxed_old_list_head))
+    fn reverse_list_recursive(old_head: Option<Box<ListNode>>, new_head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+        match old_head {
+            Some(mut boxed_old_head) => {
+                let next = boxed_old_head.next.take();
+                boxed_old_head.next = new_head;
+                Self::reverse_list_recursive(next, Some(boxed_old_head))
             }
-            None => new_list_head
+            None => new_head
         }
     }
     pub fn reverse_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
@@ -57,10 +57,17 @@ mod tests {
         head
     }
 
+    #[test]
+    fn test_empty_list() {
+        let input = list_from_vec(vec![]);
+        let expected = list_from_vec(vec![]);
+        assert_eq!(Solution::reverse_list(input), expected);
+    }
+
     // Input: 1->2->3->4->5->NULL
     // Output: 5->4->3->2->1->NULL
     #[test]
-    fn test() {
+    fn test_normal() {
         let input = list_from_vec(vec![Some(1), Some(2), Some(3), Some(4), Some(5)]);
         let expected = list_from_vec(vec![Some(5), Some(4), Some(3), Some(2), Some(1)]);
         assert_eq!(Solution::reverse_list(input), expected);

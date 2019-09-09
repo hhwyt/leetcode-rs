@@ -7,7 +7,6 @@ impl Solution {
         let mut low = 0;
         while low != high {
             let mid = low + (high - low) / 2;
-            // 当 low 等于 high - 1 时，mid 始终等于 low。此时可得到最终结果。
             if low == mid {
                 return if high <= x / high { high } else { low };
             }

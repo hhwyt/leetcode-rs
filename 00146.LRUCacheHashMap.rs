@@ -37,37 +37,41 @@ impl LRUCache {
         }
     }
 
-    fn move_to_head(&mut self, key: i32) {
-        if let Some(value) = self.map.clone().get(&key) {
-            match (value.prev_key, value.next_key) {
+    fn move_to_head(&mut self, target_key: i32) {
+        if let Some(cloned_target_value) = self.map.get(&target_key).cloned() {
+            match (cloned_target_value.prev_key, cloned_target_value.next_key) {
                 (Some(prev_key), Some(next_key)) => {
-                    if let Some(next_value) = self.map.clone().get(&next_key) {
-                        self.map.insert(next_key, LRUValue::new(next_value.val, Some(prev_key), next_value.next_key));
-                    }
-                    if let Some(prev_value) = self.map.clone().get(&prev_key) {
-                        self.map.insert(prev_key, LRUValue { val: prev_value.val, prev_key: prev_value.prev_key, next_key: Some(next_key) });
-                    }
+                    self.map.get_mut(&next_key).unwrap().prev_key = Some(prev_key);
+                    self.map.get_mut(&prev_key).unwrap().next_key = Some(next_key);
                 }
                 (Some(prev_key), None) => {
-                    if let Some(prev_value) = self.map.clone().get(&prev_key) {
-                        self.map.insert(prev_key, LRUValue { val: prev_value.val, prev_key: prev_value.prev_key, next_key: None });
-                        self.tail_key = Some(prev_key);
-                    }
+                    self.map.get_mut(&prev_key).unwrap().next_key = None;
+                    self.tail_key = Some(prev_key);
                 }
                 _ => {
                     return;
                 }
             }
-            let head_key = self.head_key.unwrap();
-            if let Some(head_value) = self.map.get_mut(&head_key) {
-                head_value.prev_key = Some(key);
-            }
-            self.map.insert(key, LRUValue::new(value.val, None, Some(head_key)));
-            self.head_key = Some(key);
+            let old_head_key = self.head_key.unwrap();
+            self.map.get_mut(&old_head_key).unwrap().prev_key = Some(target_key);
+
+            let target_value = self.map.get_mut(&target_key).unwrap();
+            target_value.prev_key = None;
+            target_value.next_key = Some(old_head_key);
+            self.head_key = Some(target_key);
         }
     }
 
-    fn pop_tail() {}
+    pub fn remove_tail(&mut self) {
+        if let Some(old_tail_key) = self.tail_key {
+            let new_tail_key = self.map.get(&old_tail_key).unwrap().prev_key;
+            if let Some(new_tail_key) = new_tail_key {
+                self.map.get_mut(&new_tail_key).unwrap().next_key = None;
+            }
+            self.tail_key = new_tail_key;
+            self.map.remove(&old_tail_key);
+        }
+    }
 
     pub fn get(&mut self, key: i32) -> i32 {
         if self.map.contains_key(&key) {
@@ -80,58 +84,20 @@ impl LRUCache {
 
     pub fn put(&mut self, key: i32, value: i32) {
         if self.map.is_empty() {
-            self.map.insert(key, LRUValue { val: value, prev_key: None, next_key: None });
+            self.map.insert(key, LRUValue::new(value, None, None));
             self.tail_key = Some(key);
         } else {
-            let (head_key, tail_key) = (self.head_key.unwrap(), self.tail_key.unwrap());
             if !self.map.contains_key(&key) {
-                if self.map.len() == self.max_size {
-                    if let Some(tail_value) = self.map.get(&tail_key) {
-                        if let Some(prev_key) = tail_value.prev_key {
-                            if let Some(prev_value) = self.map.get_mut(&prev_key) {
-                                prev_value.next_key = None;
-                                self.tail_key = Some(prev_key);
-                            }
-                        }
-                    }
-                    self.map.remove(&tail_key);
-                }
-                if let Some(head_value) = self.map.get_mut(&head_key) {
-                    head_value.prev_key = Some(key);
-                }
-                self.map.insert(key, LRUValue { val: value, prev_key: None, next_key: Some(head_key) });
-            } else if tail_key == key {
-                if let Some(tail_value) = self.map.get(&tail_key) {
-                    if let Some(prev_key) = tail_value.prev_key {
-                        if let Some(prev_value) = self.map.get_mut(&prev_key) {
-                            prev_value.next_key = None;
-                            self.tail_key = Some(prev_key);
-                        }
-                    }
-                }
-                if let Some(head_value) = self.map.get_mut(&head_key) {
-                    head_value.prev_key = Some(key);
-                }
-                self.map.insert(key, LRUValue { val: value, prev_key: None, next_key: Some(head_key) });
-            } else if head_key == key {
-                if let Some(head_value) = self.map.clone().get(&head_key) {
-                    self.map.insert(key, LRUValue { val: value, prev_key: None, next_key: head_value.next_key });
+                let old_head_key = self.head_key.unwrap();
+                self.map.get_mut(&old_head_key).unwrap().prev_key = Some(key);
+                self.map.insert(key, LRUValue::new(value, None, Some(old_head_key)));
+
+                if self.map.len() > self.max_size {
+                    self.remove_tail();
                 }
             } else {
-                if let Some(lru_value) = self.map.get(&key) {
-                    if let (Some(prev_key), Some(next_key)) = (lru_value.prev_key, lru_value.next_key) {
-                        if let Some(next_value) = self.map.clone().get(&next_key) {
-                            self.map.insert(next_key, LRUValue { val: next_value.val, prev_key: Some(prev_key), next_key: next_value.next_key });
-                        }
-                        if let Some(prev_value) = self.map.clone().get(&prev_key) {
-                            self.map.insert(prev_key, LRUValue { val: prev_value.val, prev_key: prev_value.prev_key, next_key: Some(next_key) });
-                        }
-                    }
-                }
-                if let Some(head_value) = self.map.get_mut(&head_key) {
-                    head_value.prev_key = Some(key);
-                }
-                self.map.insert(key, LRUValue { val: value, prev_key: None, next_key: Some(head_key) });
+                self.map.get_mut(&key).unwrap().val = value;
+                self.move_to_head(key);
             }
         }
         self.head_key = Some(key);

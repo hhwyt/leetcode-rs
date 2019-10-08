@@ -10,7 +10,6 @@ impl Solution {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -18,7 +17,6 @@ mod tests {
     #[test]
     fn test_0() {
         let nums = vec![1, 2, 3, 1];
-        //                       n2  n1
         let expected = 4;
         assert_eq!(Solution::rob(nums), expected);
     }

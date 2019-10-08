@@ -1,16 +1,12 @@
 struct Solution;
 
 impl Solution {
-    fn rob_recursive(nums: &Vec<i32>, i: i32) -> i32 {
-        if i < 0 {
-            0
-        } else {
-            (nums[i as usize] + Self::rob_recursive(nums, i - 2)).max(Self::rob_recursive(nums, i - 1))
-        }
-    }
-
     pub fn rob(nums: Vec<i32>) -> i32 {
-        return Self::rob_recursive(&nums, nums.len() as i32 - 1);
+        let mut dp = vec![0; nums.len() + 2];
+        for i in 0..nums.len() {
+            dp[i + 2] = (nums[i] + dp[i]).max(dp[i + 1]);
+        }
+        dp[nums.len() + 1]
     }
 }
 
@@ -22,6 +18,7 @@ mod tests {
     #[test]
     fn test_0() {
         let nums = vec![1, 2, 3, 1];
+        //                       n2  n1
         let expected = 4;
         assert_eq!(Solution::rob(nums), expected);
     }

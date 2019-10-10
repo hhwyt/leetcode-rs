@@ -1,6 +1,7 @@
 struct Solution;
 
-#[allow(dead_code)]
+// Time complexity: worst case is O(n+m)
+// Space complexity: O(m)
 impl Solution {
     fn lps(s: &Vec<u8>) -> Vec<usize> {
         let mut lps = vec![0; s.len()];

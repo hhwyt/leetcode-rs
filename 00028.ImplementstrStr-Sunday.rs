@@ -2,8 +2,10 @@ use std::collections::HashMap;
 
 struct Solution;
 
+// Sunday algorithm: http://wiki.jikexueyuan.com/project/kmp-algorithm/sunday.html
+// Time Complexity: best case is O(n/m), worst case is O(nm)
+// Space Complexity: O(m)
 impl Solution {
-    // Sunday algorithm: http://wiki.jikexueyuan.com/project/kmp-algorithm/sunday.html
     pub fn str_str(haystack: String, needle: String) -> i32 {
         let haystack = haystack.as_bytes();
         let needle = needle.as_bytes();
@@ -44,7 +46,6 @@ impl Solution {
         -1
     }
 }
-
 
 #[cfg(test)]
 mod tests {

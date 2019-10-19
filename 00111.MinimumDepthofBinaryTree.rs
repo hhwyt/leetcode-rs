@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 struct Solution;
 
 // Definition for a binary tree node.

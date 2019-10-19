@@ -1,6 +1,5 @@
 struct Solution;
 
-#[allow(dead_code)]
 impl Solution {
     pub fn count_and_say(n: i32) -> String {
         if n <= 0 {

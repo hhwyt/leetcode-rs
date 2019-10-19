@@ -1,19 +1,3 @@
-#![allow(dead_code)]
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test() {
-        let vec0 = vec![3, 2, 3];
-        assert_eq!(Solution::majority_element(vec0), 3);
-
-        let vec1 = vec![2, 2, 1, 1, 1, 2, 2];
-        assert_eq!(Solution::majority_element(vec1), 2);
-    }
-}
-
 struct Solution;
 
 impl Solution {
@@ -35,3 +19,18 @@ impl Solution {
         majority_element
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test() {
+        let vec0 = vec![3, 2, 3];
+        assert_eq!(Solution::majority_element(vec0), 3);
+
+        let vec1 = vec![2, 2, 1, 1, 1, 2, 2];
+        assert_eq!(Solution::majority_element(vec1), 2);
+    }
+}
+

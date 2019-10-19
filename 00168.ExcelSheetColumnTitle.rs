@@ -1,4 +1,17 @@
-#![allow(dead_code)]
+struct Solution;
+
+impl Solution {
+    pub fn convert_to_title(n: i32) -> String {
+        let mut s = String::from("");
+        let mut n = n;
+        while n > 0 {
+            n -= 1;
+            s.insert(0, ('A' as u8 + (n % 26) as u8) as char);
+            n /= 26;
+        }
+        s
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -29,17 +42,3 @@ mod tests {
     }
 }
 
-struct Solution;
-
-impl Solution {
-    pub fn convert_to_title(n: i32) -> String {
-        let mut s = String::from("");
-        let mut n = n;
-        while n > 0 {
-            n -= 1;
-            s.insert(0, ('A' as u8 + (n % 26) as u8) as char);
-            n /= 26;
-        }
-        s
-    }
-}

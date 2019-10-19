@@ -1,6 +1,15 @@
-#![allow(dead_code)]
-
 struct Solution;
+
+impl Solution {
+    pub fn my_sqrt(n: i32) -> i32 {
+        if n == 0 || n == 1 { return n; }
+        let mut x0 = n / 2;
+        while x0 > n / x0 {
+            x0 = (x0 + n / x0) / 2;
+        }
+        x0
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -22,16 +31,5 @@ mod tests {
 
         let x_int_max = 2147483647;
         assert_eq!(Solution::my_sqrt(x_int_max), 46340);
-    }
-}
-
-impl Solution {
-    pub fn my_sqrt(n: i32) -> i32 {
-        if n == 0 || n == 1 { return n; }
-        let mut x0 = n / 2;
-        while x0 > n / x0 {
-            x0 = (x0 + n / x0) / 2;
-        }
-        x0
     }
 }

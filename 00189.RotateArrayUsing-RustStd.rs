@@ -1,4 +1,13 @@
-#![allow(dead_code)]
+struct Solution;
+
+impl Solution {
+    pub fn rotate(nums: &mut Vec<i32>, k: i32) {
+        if k > 0 {
+            let k = k as usize % nums.len();
+            nums.rotate_right(k)
+        }
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -18,13 +27,3 @@ mod tests {
     }
 }
 
-struct Solution;
-
-impl Solution {
-    pub fn rotate(nums: &mut Vec<i32>, k: i32) {
-        if k > 0 {
-            let k = k as usize % nums.len();
-            nums.rotate_right(k)
-        }
-    }
-}

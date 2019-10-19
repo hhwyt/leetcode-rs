@@ -1,5 +1,3 @@
-//use std::str;
-
 struct Solution;
 
 impl Solution {
@@ -28,7 +26,6 @@ impl Solution {
             }
         }
         common_prefix.into_iter().map(|s| s as char).collect()
-        //str::from_utf8(&common_prefix[..]).unwrap().to_string()
     }
 }
 

@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 struct Solution;
 
 impl Solution {
@@ -10,18 +8,18 @@ impl Solution {
 
         let m = m as usize;
         let n = n as usize;
-        let mut dp = vec![vec![1; n]; m];
+
+        let mut dp = vec![1; n];
 
         for i in 1..m {
             for j in 1..n {
-                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+                dp[j] += dp[j - 1];
             }
         }
 
-        dp[m - 1][n - 1]
+        dp[n - 1]
     }
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -62,3 +60,4 @@ mod tests {
         assert_eq!(Solution::unique_paths(m, n), expected);
     }
 }
+

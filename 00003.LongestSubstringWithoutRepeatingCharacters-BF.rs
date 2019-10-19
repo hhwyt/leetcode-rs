@@ -1,4 +1,25 @@
-#![allow(dead_code)]
+struct Solution;
+
+// O(n^3)
+impl Solution {
+    pub fn length_of_longest_substring(s: String) -> i32 {
+        let s: Vec<char> = s.chars().collect();
+        let mut max_length = 0;
+        for i in 0..s.len() {
+            let mut cur_length = 1;
+            'outer: for j in i + 1..s.len() {
+                for k in (i..j).rev() {
+                    if s[k] == s[j] {
+                        break 'outer;
+                    }
+                }
+                cur_length += 1;
+            }
+            max_length = max_length.max(cur_length);
+        }
+        max_length
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -60,27 +81,3 @@ mod tests {
         assert_eq!(Solution::length_of_longest_substring(input), expected);
     }
 }
-
-struct Solution;
-
-impl Solution {
-    // O(n^3)
-    pub fn length_of_longest_substring(s: String) -> i32 {
-        let s: Vec<char> = s.chars().collect();
-        let mut max_length = 0;
-        for i in 0..s.len() {
-            let mut cur_length = 1;
-            'outer: for j in i + 1..s.len() {
-                for k in (i..j).rev() {
-                    if s[k] == s[j] {
-                        break 'outer;
-                    }
-                }
-                cur_length += 1;
-            }
-            max_length = max_length.max(cur_length);
-        }
-        max_length
-    }
-}
-

@@ -1,4 +1,4 @@
-#![allow(dead_code)]
+use std::mem;
 
 #[derive(PartialEq, Eq, Clone, Debug)]
 pub struct ListNode {
@@ -20,24 +20,20 @@ impl Solution {
         l1: Option<Box<ListNode>>,
         l2: Option<Box<ListNode>>,
     ) -> Option<Box<ListNode>> {
-        let some_box_list = |val, next| Some(Box::new(ListNode { val, next }));
-
-        match (l1, l2) {
-            (Some(node1), Some(node2)) => {
-                if node1.val < node2.val {
-                    some_box_list(node1.val, Self::merge_two_lists(node1.next, Some(node2)))
-                } else {
-                    some_box_list(node2.val, Self::merge_two_lists(Some(node1), node2.next))
-                }
+        let mut result = l1;
+        let mut l2 = l2;
+        let mut small = &mut result;
+        let mut big = &mut l2;
+        while big.is_some() {
+            if small.is_none() || small.as_ref()?.val > big.as_ref()?.val {
+                mem::swap(small, big);
             }
-            (Some(node1), None) => {
-                some_box_list(node1.val, Self::merge_two_lists(node1.next, None))
+            if small.is_some() {
+                small = &mut small.as_mut()?.next;
             }
-            (None, Some(node2)) => {
-                some_box_list(node2.val, Self::merge_two_lists(node2.next, None))
-            }
-            _ => None,
         }
+
+        result
     }
 }
 

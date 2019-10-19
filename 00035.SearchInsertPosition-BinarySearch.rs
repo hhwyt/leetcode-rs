@@ -1,6 +1,5 @@
 struct Solution;
 
-#[allow(dead_code)]
 impl Solution {
     pub fn search_insert(nums: Vec<i32>, target: i32) -> i32 {
         if nums.is_empty() {

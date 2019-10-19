@@ -1,4 +1,17 @@
-#![allow(dead_code)]
+struct Solution;
+
+impl Solution {
+    pub fn rotate(nums: &mut Vec<i32>, k: i32) {
+        if nums.is_empty() || nums.len() == k as usize && k == 0 {
+            return;
+        }
+       
+        let k = k % nums.len() as i32;
+        nums[..].reverse();
+        nums[0..k as usize].reverse();
+        nums[k as usize..].reverse();
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -15,20 +28,5 @@ mod tests {
         let expected2 = vec![3, 99, -1, -100];
         Solution::rotate(&mut input2, 2);
         assert_eq!(input2, expected2);
-    }
-}
-
-struct Solution;
-
-impl Solution {
-    pub fn rotate(nums: &mut Vec<i32>, k: i32) {
-        if nums.is_empty() || nums.len() == k as usize && k == 0 {
-            return;
-        }
-       
-        let k = k % nums.len() as i32;
-        nums[..].reverse();
-        nums[0..k as usize].reverse();
-        nums[k as usize..].reverse();
     }
 }

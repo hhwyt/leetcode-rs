@@ -1,4 +1,42 @@
-#![allow(dead_code)]
+struct Solution;
+
+impl Solution {
+    fn is_palindrome(s: &[char]) -> bool {
+        let mut first_idx = 0;
+        let mut last_idx = s.len() - 1;
+        while first_idx < last_idx {
+            if s[first_idx] != s[last_idx] {
+                return false;
+            }
+            first_idx += 1;
+            last_idx -= 1;
+        }
+        true
+    }
+
+    pub fn longest_palindrome(s: String) -> String {
+        if s.is_empty() {
+            return "".to_owned();
+        }
+
+        let s: Vec<char> = s.chars().collect();
+        let mut pos = 0;
+        let mut max_len = 1;
+
+        for i in 0..s.len() {
+            for j in i + 1..s.len() {
+                if Self::is_palindrome(&s[i..=j]) {
+                    if s[i..=j].len() > max_len {
+                        max_len = s[i..=j].len();
+                        pos = j;
+                    }
+                }
+            }
+        }
+
+        s[pos - (max_len - 1)..=pos].iter().collect()
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -68,42 +106,3 @@ mod tests {
     }
 }
 
-struct Solution;
-
-impl Solution {
-    fn is_palindrome(s: &[char]) -> bool {
-        let mut first_idx = 0;
-        let mut last_idx = s.len() - 1;
-        while first_idx < last_idx {
-            if s[first_idx] != s[last_idx] {
-                return false;
-            }
-            first_idx += 1;
-            last_idx -= 1;
-        }
-        true
-    }
-
-    pub fn longest_palindrome(s: String) -> String {
-        if s.is_empty() {
-            return "".to_owned();
-        }
-
-        let s: Vec<char> = s.chars().collect();
-        let mut pos = 0;
-        let mut max_len = 1;
-
-        for i in 0..s.len() {
-            for j in i + 1..s.len() {
-                if Self::is_palindrome(&s[i..=j]) {
-                    if s[i..=j].len() > max_len {
-                        max_len = s[i..=j].len();
-                        pos = j;
-                    }
-                }
-            }
-        }
-
-        s[pos - (max_len - 1)..=pos].iter().collect()
-    }
-}

@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 use std::ptr;
 use std::mem;
 use std::boxed::Box;

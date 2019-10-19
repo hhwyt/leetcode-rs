@@ -1,25 +1,3 @@
-#![allow(dead_code)]
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test() {
-        let vec0 = vec![];
-        let target0 = 0;
-        assert_eq!(Solution::two_sum(vec0, 0), vec![]);
-
-        let vec1 = vec![2, 7, 11, 15];
-        let target1 = 9;
-        assert_eq!(Solution::two_sum(vec1, target1), vec![1, 2]);
-
-        let vec2 = vec![-1, 0];
-        let target2 = -1;
-        assert_eq!(Solution::two_sum(vec2, target2), vec![1, 2]);
-    }
-}
-
 struct Solution;
 
 use std::collections::HashMap;
@@ -42,5 +20,25 @@ impl Solution {
             }
         }
         vec![]
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test() {
+        let vec0 = vec![];
+        let target0 = 0;
+        assert_eq!(Solution::two_sum(vec0, 0), vec![]);
+
+        let vec1 = vec![2, 7, 11, 15];
+        let target1 = 9;
+        assert_eq!(Solution::two_sum(vec1, target1), vec![1, 2]);
+
+        let vec2 = vec![-1, 0];
+        let target2 = -1;
+        assert_eq!(Solution::two_sum(vec2, target2), vec![1, 2]);
     }
 }

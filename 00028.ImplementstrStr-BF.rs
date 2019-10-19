@@ -1,6 +1,5 @@
 struct Solution;
 
-#[allow(dead_code)]
 impl Solution {
     pub fn str_str(haystack: String, needle: String) -> i32 {
         if needle.is_empty() {

@@ -1,6 +1,5 @@
 struct Solution;
 
-#[allow(dead_code)]
 impl Solution {
     pub fn max_sub_array(v: Vec<i32>) -> i32 {
         if v.is_empty() {

@@ -1,8 +1,6 @@
-#![allow(unused)]
 struct Solution;
 
 impl Solution {
-    // to support caseinsensitive
     fn to_i32(s: char) -> i32 {
         match s {
             'I' => 1,
@@ -16,7 +14,6 @@ impl Solution {
         }
     }
 
-    // to validate s
     pub fn roman_to_int(s: String) -> i32 {
         let mut last: i32 = 0;
         let mut result: i32 = 0;

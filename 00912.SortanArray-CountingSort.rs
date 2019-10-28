@@ -13,7 +13,6 @@ impl Solution {
         let min = *nums.iter().min().unwrap();
         let max = *nums.iter().max().unwrap();
         let mut counters = vec![0; (max - min) as usize + 1];
-        let mut outputs = vec![0; nums.len()];
 
         for i in 0..nums.len() {
             let count_index = Self::count_index(nums[i], min);
@@ -24,7 +23,7 @@ impl Solution {
             counters[i] += counters[i - 1];
         }
 
-
+        let mut outputs = vec![0; nums.len()];
         for i in 0..nums.len() {
             let count_index = Self::count_index(nums[i], min);
             let counter = counters[count_index];

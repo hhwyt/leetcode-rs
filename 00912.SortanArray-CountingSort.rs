@@ -26,8 +26,7 @@ impl Solution {
         let mut outputs = vec![0; nums.len()];
         for i in 0..nums.len() {
             let key = Self::key(nums[i], min);
-            let counter = counters[key];
-            outputs[counter - 1] = nums[i];
+            outputs[counters[key] - 1] = nums[i];
             counters[key] -= 1;
         }
 

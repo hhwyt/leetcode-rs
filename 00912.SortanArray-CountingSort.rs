@@ -1,7 +1,7 @@
 struct Solution;
 
 impl Solution {
-    fn count_index(num: i32, min: i32) -> usize {
+    fn key(num: i32, min: i32) -> usize {
         (num - min) as usize
     }
 
@@ -15,8 +15,8 @@ impl Solution {
         let mut counters = vec![0; (max - min) as usize + 1];
 
         for i in 0..nums.len() {
-            let count_index = Self::count_index(nums[i], min);
-            counters[count_index] += 1;
+            let key = Self::key(nums[i], min);
+            counters[key] += 1;
         }
 
         for i in 1..counters.len() {
@@ -25,17 +25,13 @@ impl Solution {
 
         let mut outputs = vec![0; nums.len()];
         for i in 0..nums.len() {
-            let count_index = Self::count_index(nums[i], min);
-            let counter = counters[count_index];
+            let key = Self::key(nums[i], min);
+            let counter = counters[key];
             outputs[counter - 1] = nums[i];
-            counters[count_index] -= 1;
+            counters[key] -= 1;
         }
 
-        for i in 0..nums.len() {
-            nums[i] = outputs[i];
-        }
-
-        return nums;
+        return outputs;
     }
 }
 

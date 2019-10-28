@@ -5,7 +5,7 @@ impl Solution {
         (num - min) as usize
     }
 
-    pub fn sort_array(mut nums: Vec<i32>) -> Vec<i32> {
+    pub fn sort_array(nums: Vec<i32>) -> Vec<i32> {
         if nums.is_empty() {
             return nums;
         }
@@ -24,7 +24,9 @@ impl Solution {
         }
 
         let mut outputs = vec![0; nums.len()];
-        for i in 0..nums.len() {
+
+        // Reverse order traversal to ensure stability
+        for i in (0..nums.len()).rev() {
             let key = Self::key(nums[i], min);
             outputs[counters[key] - 1] = nums[i];
             counters[key] -= 1;

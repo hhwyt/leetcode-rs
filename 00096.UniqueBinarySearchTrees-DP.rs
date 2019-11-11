@@ -1,21 +1,25 @@
 struct Solution;
 
-// O(N^2)
+// O(n^2)
 impl Solution {
     pub fn num_trees(n: i32) -> i32 {
-        let mut dp = vec![0; n as usize + 1];
+        if n < 0 {
+            return 0;
+        }
+
+        let n = n as usize;
+        let mut dp = vec![0; n + 1];
         dp[0] = 1;
 
         for i in 1..=n {
-            for j in 1..=i {
-                dp[i as usize] += dp[i as usize - j as usize] * dp[j as usize - 1];
+            for k in 0..=i - 1 {
+                dp[i] += dp[k] * dp[i - k - 1]
             }
         }
 
-        dp[n as usize]
+        dp[n]
     }
 }
-
 
 #[cfg(test)]
 mod tests {

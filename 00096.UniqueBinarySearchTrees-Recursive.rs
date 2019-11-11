@@ -1,6 +1,7 @@
 struct Solution;
 
-// O(N!)
+
+// Ω(2^n) ~ O(n * n!)
 impl Solution {
     pub fn num_trees(n: i32) -> i32 {
         if n <= 1 {

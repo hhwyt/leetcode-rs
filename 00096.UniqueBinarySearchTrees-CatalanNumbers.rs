@@ -2,13 +2,15 @@ struct Solution;
 
 impl Solution {
     pub fn num_trees(n: i32) -> i32 {
-        // Catalan number: Cn = C(n, 2n)/(n+1)
-        // https://en.wikipedia.org/wiki/Catalan_number
-        let mut res = 1;
-        for i in 1..=n {
-            res = res * (i + n) / i;
+        if n <= 0 {
+            return 0;
         }
-        res / (n + 1)
+        let mut res = 1 as u64;
+        let n = n as u64;
+        for i in 1..=n {
+            res = res * (n + i) / i;
+        }
+        (res / (n + 1)) as i32
     }
 }
 

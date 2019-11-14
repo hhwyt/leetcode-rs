@@ -5,16 +5,18 @@ use std::collections::HashMap;
 impl Solution {
     pub fn length_of_longest_substring(s: String) -> i32 {
         let s: Vec<char> = s.chars().collect();
-        let mut hm = HashMap::new();
-        let (mut left, mut max_length) = (0, 0);
-        for right in 0..s.len() {
-            if hm.contains_key(&s[right]) {
-                left = left.max(hm[&s[right]] + 1);
+        let mut mp = HashMap::new();
+        let mut res = 0;
+        let mut i = 0;
+        for j in 0..s.len() {
+            if mp.contains_key(&s[j]) && mp[&s[j]] >= i {
+                i = mp[&s[j]] + 1;
+            } else {
+                res = res.max(j - i + 1);
             }
-            max_length = max_length.max(right - left + 1);
-            hm.insert(s[right], right);
+            mp.insert(s[j], j);
         }
-        max_length as i32
+        res as i32
     }
 }
 
